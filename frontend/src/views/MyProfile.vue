@@ -17,7 +17,6 @@ export default {
     name: 'Home',
     data(){
         return{
-            revele: false,
             userId: sessionStorage.getItem('userId'),
             token: sessionStorage.getItem('token')
         }

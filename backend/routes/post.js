@@ -8,9 +8,9 @@ const multer = require('../middleware/multer-config'); // Middleware multer-conf
 // routes CRUD: Create, Read, Update et Delete
 // Middleware d'authentification pour sécuriser les routes de l'API
 router.get('/', auth, postCtrl.getAllPosts);
-router.get('./:id', auth, postCtrl.getOnePost); 
-router.post('/:id',  multer, postCtrl.modifyOnePost);
-router.post('/create', postCtrl.createPost);
+router.get('./:id', auth, postCtrl.getOnePost);
+router.post('/create', auth, multer, postCtrl.createPost);
+router.post('/:id', auth, multer, postCtrl.modifyOnePost);
 router.delete('/:id', auth, postCtrl.deleteOnePost);
 
 module.exports = router;

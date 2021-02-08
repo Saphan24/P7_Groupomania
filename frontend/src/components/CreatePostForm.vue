@@ -35,16 +35,17 @@ export default {
     methods: {
         createNewPost() {
             let addedPost = new Object({
-                content: this.newcontent,
                 users_id: '',
+                content: this.newcontent,
                 createdAt: ''
             });
             this.content.push(addedPost);
             this.newContent = '';
-            console.log(this.newContent) 
+            console.log(this.newContent)
+
             fetch('http://localhost:3000/api/posts/create', {
                 method: "POST", 
-                headers: {"Content-type": "application/json"},
+                headers: {"Content-type": "application/json;charset=UTF-8"},
                 body: JSON.stringify({content: this.newContent})
             })
             .then(() => {

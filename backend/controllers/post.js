@@ -11,23 +11,22 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.createPost = (req, res, next) => {
     console.log(req.body)
-    Post.create({
-        creator_id: req.body.id,
-        content: req.body.content
-    })
-    .then(() => res.status(200).json({message: 'Post créé'}))
-    .then(response => {
-        console.log(response)
-    })
-    .catch(error => res.status(400).json({ error }));
+    const post = new Post({
+        users_id: req.params.users_id,
+        content: req.body.content,
+        createdAt: req.body.createdAt
+    });
+    post.save()
+        .then(() => res.status(200).json({message: 'Post créé'}))
+        .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteOnePost = (req, res, next) => {
-    Post.findAll({ where: {posts_id: req.params.id}})
+    Post.findAll({ where: {usesr_id: req.params.id}})
     .then( post => {
         const filename = post[0].attachment.split('/images/')[1];
         fs.unlink(`images/${filename}`,() => {
-            Post.destroy({ where: {posts_Id: req.params.id}})
+            Post.destroy({ where: {users_Id: req.params.id}})
             .then(() => res.status(200).json({ message: "Post supprimé ! "}))
             .catch(error => res.status(400).json({ error }));
         })
@@ -36,7 +35,7 @@ exports.deleteOnePost = (req, res, next) => {
 };
 
 exports.getOnePost = (req, res, next) => {
-    Post.findAll({ where: {posts_id: req.params.id}, include: [{model: User}]})
+    Post.findAll({ where: {users_id: req.params.id}, include: [{model: User}]})
     .then(post => res.status(200).json(post))
     .catch(error => res.status(400).json({error}));
 };
@@ -44,12 +43,12 @@ exports.getOnePost = (req, res, next) => {
 exports.modifyOnePost = (req, res, next) => {
     let PostObject;
     console.log(req.params.id)
-    /*if (req.file){
+    if (req.file){
         PostObject = {
             content: req.body.content,
             attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         }
-        Post.findAll({where: {posts_id: req.params.id}})
+        Post.findAll({where: {users_id: req.params.id}})
         .then(post => {
             const filename = post[0].attachment.split('/images/')[1];
             fs.unlink(`images/${filename}`,() =>{
@@ -58,7 +57,7 @@ exports.modifyOnePost = (req, res, next) => {
                 },
                 {
                     where: {
-                        posts_id: req.params.id
+                        users_id: req.params.id
                     }
                 })
                 .then(() => res.status(200).json({message: "Votre post a été modifié !"}))
@@ -73,10 +72,10 @@ exports.modifyOnePost = (req, res, next) => {
         },
         {
             where: {
-                posts_id: req.params.id
+                users_id: req.params.id
             }
         })
         .then(() => res.status(200).json({message: "Votre post a été modifié !"}))
         .catch(error => res.status(400).json({message: "Votre post n'a pas pu être modifié" + error}));
-    }*/
+    }
 };

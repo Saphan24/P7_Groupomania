@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="div-icon">
-                    <font-awesome-icon icon="trash" id="icon-trash" v-if="post.creator_id == id" @click="removePost(post.id)"/>
+                    <font-awesome-icon icon="trash" id="icon-trash" v-if="post.users_id == id" @click="removePost(post.id)"/>
                 </div>
             </div>
             <p>{{ post.content }}</p>

@@ -7,8 +7,12 @@
                     <div class="col-md-12">
                         <h3>Publication</h3>
                         <form @submit.prevent="createNewPost()">
-                            <input type="text" class="form-control" v-model="newContent" placeholder="Laisser un commentaire" required/>
-                            <b-button type="submit">Publier</b-button>
+                            <b-form-group>
+                                <input type="text" class="form-control" v-model="content" placeholder="Laisser un commentaire" required/>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-button type="submit">Publier</b-button>
+                            </b-form-group>
                         </form>
                     </div>
                 </div>
@@ -29,7 +33,7 @@ export default {
         return {
             content: [],
             newContent: '',
-            userId: localStorage.getItem('userId')
+            
         }
     },
     methods: {
@@ -42,7 +46,7 @@ export default {
             this.content.push(addedPost);
             this.newContent = '';
             console.log(this.newContent)
-
+            
             fetch('http://localhost:3000/api/posts/create', {
                 method: "POST", 
                 headers: {"Content-type": "application/json;charset=UTF-8"},

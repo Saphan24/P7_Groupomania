@@ -2,21 +2,20 @@
     <div class="contain row justify-content-center mt-5">
         <b-card class="profile col-md-6 col-md-pull-6">
             <div id="profile" v-for="user in profile" :key="user.userId">
+                <h3>{{ user.username }}</h3>
                 <div id="info_profile">
-                    <h4>test</h4>
-                    <hr>
-                    <p>test{{ user.bio }}</p>
-                    <p>Vous êtes inscrit depuis le:12/12/2021{{ user.createdAt | formatDate }}</p>
+                    <p>{{ user.bio }}</p>
+                    <p>Vous êtes inscrit depuis le:{{ user.createdAt | formatDate }}</p>
                 </div>
             </div>
-            <!--<button class="btn btn-warning" @click="toggleModale">Supprimer</button>
+            <button class="btn btn-warning" @click="toggleModale">Supprimer</button>
             <div id="modal" v-if="showModal===true" @close="toggleModale">
-	            <p>Êtes-vous certain de vouloir supprimer l'utilisateur <strong>{{ user.username }}</strong> ?</p>
+	            <p>Êtes-vous certain de vouloir supprimer l'utilisateur ?</p>
 	            <div class="actions">
-	    	        <button class="cancel" @click="onCancel">Annuler</button>
+	    	        <button class="cancel" @click="toggleModale">Annuler</button>
 	    	        <button class="confirm" @click="onConfirm">Confirmer</button>
 	            </div>
-            </div>-->
+            </div>
         </b-card>
     </div>
 </template>
@@ -28,7 +27,6 @@ export default {
     props: ["userId", "token"],
     data() {
         return {
-            data: JSON.parse(this.$localStorage.get('profile')),
             profile:"",
             showModal: false,
         }
@@ -36,7 +34,8 @@ export default {
     mounted(){
         fetch("http://localhost:3000/api/users/" + this.userId, {
             method: "GET",
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}`}
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${this.token}`},
+            body: JSON.stringify({userId:this.userId})
         })
         .then(response => {
             console.log(response.data)
@@ -51,7 +50,8 @@ export default {
         onConfirm(){
             fetch('http://localhost:3000/api/users/' + this.userId, {
                 method: "DELETE",
-                headers: { "Content-Type" : "application/json;charset=UTF-8", "Authorization": `Bearer ${this.token}`}
+                headers: { "Content-Type" : "application/json;charset=UTF-8", "Authorization": `Bearer ${this.token}`},
+                body: JSON.stringify({userId:this.userId})
             })
             .then(() => {
                 console.log("Profile supprimé");

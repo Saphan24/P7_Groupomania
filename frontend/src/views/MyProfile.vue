@@ -17,8 +17,8 @@ export default {
     name: 'Home',
     data(){
         return{
-            userId: sessionStorage.getItem('userId'),
-            token: sessionStorage.getItem('token')
+            userId: localStorage.getItem('userId'),
+            token: localStorage.getItem('token')
         }
     },
     components:{

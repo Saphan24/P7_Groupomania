@@ -9,8 +9,8 @@ const multer = require('../middleware/multer-config'); // Middleware multer-conf
 // Middleware d'authentification pour sécuriser les routes de l'API
 router.get('/', auth, postCtrl.getAllPosts);
 router.get('./:id', auth, postCtrl.getOnePost);
-router.post('/create', multer, postCtrl.createPost);
+router.post('/create', auth, multer, postCtrl.createPost);
 router.post('/:id', auth, multer, postCtrl.modifyOnePost);
-router.delete('/:id', postCtrl.deleteOnePost);
+router.delete('/:id', auth, postCtrl.deleteOnePost);
 
 module.exports = router;

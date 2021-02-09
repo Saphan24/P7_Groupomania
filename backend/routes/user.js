@@ -9,8 +9,8 @@ const auth = require('../middleware/auth');
 
 router.post('/signup', userCtrl.signup); // création d'un user
 router.post('/login', userCtrl.login); // connection user et si erreur 429 si nous empruntons cette route trop souvent
-router.get('/:id', userCtrl.getOneUser); // récupération user
-router.delete('/:id', userCtrl.deleteOneUser); // suppression user
+router.get('/users/:id', auth, userCtrl.getOneUser); // récupération user
+router.delete('/users/:id', auth, userCtrl.deleteOneUser); // suppression user
 
 
 module.exports = router;

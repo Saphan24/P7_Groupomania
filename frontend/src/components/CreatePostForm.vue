@@ -31,34 +31,28 @@ export default {
     props:['posts', 'createNewPosts'],
     data() {
         return {
-            content: [],
+            content: '',
             newContent: '',
-            
         }
     },
     methods: {
         createNewPost() {
-            let addedPost = new Object({
+            /*let addedPost = new Object({
                 users_id: '',
                 content: this.newcontent,
                 createdAt: ''
             });
             this.content.push(addedPost);
             this.newContent = '';
-            console.log(this.newContent)
+            console.log(this.newContent)*/
             
             fetch('http://localhost:3000/api/posts/create', {
                 method: "POST", 
-                headers: {"Content-type": "application/json;charset=UTF-8"},
-                body: JSON.stringify({content: this.newContent})
+                headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem('token')}`},
+                body: JSON.stringify({users_id: this.users_id, content: this.content})
             })
-            .then(() => {
-                this.createNewPosts();
-                this.content = "";
-
-            })
+            .then(response => response.json())
             .then(response => {
-                response.json();
                 console.log(response)
             })
             .catch(error => alert(error))

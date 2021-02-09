@@ -12,7 +12,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.createPost = (req, res, next) => {
     console.log(req.body)
     const post = new Post({
-        users_id: req.body.users_id,
+        users_id: req.body.userId,
         content: req.body.content,
     });
     post.save()
